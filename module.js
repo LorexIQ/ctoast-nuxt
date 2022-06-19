@@ -1,4 +1,5 @@
 const {  resolve, join } = require('path')
+const { readdirSync } = require('fs')
 
 export default function (moduleOptions) {
   let options = {
@@ -14,7 +15,6 @@ export default function (moduleOptions) {
     'plugins/cToast.js',
     'plugins/eventBus.js',
     'plugins/fontawesome.js',
-    'components/cToast.vue'
   ]
 
   for (let plugin of plugins) {
@@ -23,6 +23,21 @@ export default function (moduleOptions) {
       fileName: join(namespace, plugin),
       options
     })
+  }
+
+  const folders = [
+    'components'
+  ]
+
+  for (let pathString of folders) {
+    const path = resolve(__dirname, pathString)
+    for (const file of readdirSync(path)) {
+      this.addTemplate({
+        src: resolve(path, file),
+        fileName: join(namespace, pathString, file),
+        options
+      })
+    }
   }
 }
 

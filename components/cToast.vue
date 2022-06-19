@@ -46,6 +46,7 @@ export default {
       timeShift: 0,
       defaultSetting: {
         position: 'right-bottom',
+        maxToasts: 10,
         ...this.setterDefaultSettings,
         toast: {
           title: '',
@@ -76,10 +77,9 @@ export default {
   },
   created () {
     eventBus.$on('clear-toasts', () => {
-      this.toastArray = []
+      this.clearToasts()
     })
     eventBus.$on('create-toast', (res) => {
-      console.log(this.setterDefaultSettings, 1, this.defaultSetting)
       this.adjustSetting(res)
       if (res.icon === '') {
         this.typeDecode(res)
@@ -92,14 +92,32 @@ export default {
         description: res.description,
       }
       this.toastArray.push(toastObj)
+      if (this.toastArray.length > this.defaultSetting.maxToasts) {
+        this.toastArray.splice(0, 1)
+      }
       if (this.toastArray.length) {
         setTimeout((obj) => {
-          this.toastArray.splice(this.toastArray.indexOf(obj), 1)
+          const index_obj = this.toastArray.indexOf(obj)
+          if (index_obj !== -1) {
+            this.toastArray.splice(index_obj, 1)
+          }
         }, res.delay, toastObj)
       }
     })
   },
   methods: {
+    clearToasts () {
+      const objDel = this.toastArray[this.toastArray.length - 1]
+      setTimeout((data) => {
+        const index_obj = this.toastArray.indexOf(data)
+        if (index_obj !== -1) {
+          this.toastArray.splice(index_obj, 1)
+          if (this.toastArray.length) {
+            this.clearToasts()
+          }
+        }
+      }, 100, objDel)
+    },
     adjustSetting (res) {
       for (let setting in this.defaultSetting.toast) {
         if (!res[setting]) {
@@ -278,7 +296,7 @@ export default {
     opacity: 1;
   }
   &-leave-active {
-    transition: transform .6s ease, opacity .6s, max-height .6s .2s;
+    transition: transform .6s ease, opacity .6s, max-height .6s .4s;
   }
   &-leave-to{
     max-height: 0;
@@ -299,7 +317,7 @@ export default {
     opacity: 1;
   }
   &-leave-active {
-    transition: transform .6s ease, opacity .6s, max-height .6s .2s;
+    transition: transform .6s ease, opacity .6s, max-height .6s .4s;
   }
   &-leave-to{
     max-height: 0;
