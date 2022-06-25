@@ -43,13 +43,15 @@ export default {
   data () {
     return {
       toastArray: [],
+      toastTimeoutArray: [],
       timeShift: 0,
       defaultSetting: {
         position: 'right-bottom',
         maxToasts: 10,
+        infinityDestroyDelay: 999999,
         ...this.setterDefaultSettings,
         toast: {
-          title: '',
+          title: 'Success',
           description: '',
           type: 'success',
           icon: '',
@@ -76,33 +78,48 @@ export default {
     }
   },
   created () {
-    eventBus.$on('clear-toasts', () => {
-      this.clearToasts()
-    })
     eventBus.$on('create-toast', (res) => {
+      res.delay === false && (res.delay = this.defaultSetting.infinityDestroyDelay)
       this.adjustSetting(res)
       if (res.icon === '') {
         this.typeDecode(res)
       }
       const toastObj = {
+        ...(res.name && { name: res.name }),
+        title: res.title,
+        description: res.description,
         type: res.type,
         icon: res.icon,
         id: (Date.now() + this.timeShift++).toString(),
-        title: res.title,
-        description: res.description,
       }
       this.toastArray.push(toastObj)
       if (this.toastArray.length > this.defaultSetting.maxToasts) {
         this.toastArray.splice(0, 1)
       }
       if (this.toastArray.length) {
-        setTimeout((obj) => {
+        this.toastTimeoutArray.push(setTimeout((obj, ) => {
           const index_obj = this.toastArray.indexOf(obj)
           if (index_obj !== -1) {
             this.toastArray.splice(index_obj, 1)
           }
-        }, res.delay, toastObj)
+          if (!this.toastArray.length) this.toastTimeoutArray = []
+        }, res.delay, toastObj))
       }
+    })
+    eventBus.$on('delete-toast', (name) => {
+      for (let ctoastData of this.toastArray.filter(res => res.name && res.name === name)) {
+        const index = this.toastArray.indexOf(ctoastData)
+        if (index !== -1) {
+          this.toastArray.splice(index, 1)
+        }
+      }
+    })
+    eventBus.$on('clear-toasts', () => {
+      for (let timeout of this.toastTimeoutArray) {
+        clearTimeout(timeout)
+      }
+      this.toastTimeoutArray = []
+      this.clearToasts()
     })
   },
   methods: {
@@ -147,6 +164,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/main.css";
+
 .is-toast {
   position: fixed;
   z-index: 3000;
@@ -184,17 +203,13 @@ export default {
     display: flex;
     flex-direction: column;
     &__item {
-      margin-bottom: .5rem;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
       border-radius: 5px;
       width: 250px;
       overflow: hidden;
-      -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-      -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       transition: 1s;
       max-height: 200px;
+      margin: .25rem 0;
       p {
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
@@ -283,46 +298,48 @@ export default {
     }
   }
 }
-.is-toasts-animation-right-bottom,
-.is-toasts-animation-right-top {
-  &-enter {
-    transform: translateX(120px);
-    opacity: 0;
-  }
-  &-enter-active, &-move  {
-    transition: all .6s ease;
-  }
-  &-enter-to, &-leave {
-    opacity: 1;
-  }
-  &-leave-active {
-    transition: transform .6s ease, opacity .6s, max-height .6s .4s;
-  }
-  &-leave-to{
-    max-height: 0;
-    transform: translateX(120px);
-    opacity: 0;
+.is-toasts-animation-right {
+  &-top, &-bottom {
+    &-enter {
+      transform: translateX(120px);
+      opacity: 0;
+    }
+    &-enter-active, &-move  {
+      transition: all .6s ease;
+    }
+    &-enter-to, &-leave {
+      opacity: 1;
+    }
+    &-leave-active {
+      transition: transform .6s ease, opacity .6s, max-height .6s .4s;
+    }
+    &-leave-to{
+      max-height: 0;
+      transform: translateX(120px);
+      opacity: 0;
+    }
   }
 }
-.is-toasts-animation-left-bottom,
-.is-toasts-animation-left-top {
-  &-enter {
-    transform: translateX(-120px);
-    opacity: 0;
-  }
-  &-enter-active, &-move  {
-    transition: all .6s ease;
-  }
-  &-enter-to, &-leave {
-    opacity: 1;
-  }
-  &-leave-active {
-    transition: transform .6s ease, opacity .6s, max-height .6s .4s;
-  }
-  &-leave-to{
-    max-height: 0;
-    transform: translateX(-120px);
-    opacity: 0;
+.is-toasts-animation-left {
+  &-top, &-bottom {
+    &-enter {
+      transform: translateX(-120px);
+      opacity: 0;
+    }
+    &-enter-active, &-move  {
+      transition: all .6s ease;
+    }
+    &-enter-to, &-leave {
+      opacity: 1;
+    }
+    &-leave-active {
+      transition: transform .6s ease, opacity .6s, max-height .6s .4s;
+    }
+    &-leave-to{
+      max-height: 0;
+      transform: translateX(-120px);
+      opacity: 0;
+    }
   }
 }
 </style>

@@ -14,7 +14,7 @@ export default function (moduleOptions) {
     'debug.js',
     'plugins/cToast.js',
     'plugins/eventBus.js',
-    'plugins/fontawesome.js',
+    'plugins/fontawesome.js'
   ]
 
   for (let plugin of plugins) {
@@ -26,7 +26,8 @@ export default function (moduleOptions) {
   }
 
   const folders = [
-    'components'
+    'components',
+    'assets/css'
   ]
 
   for (let pathString of folders) {
