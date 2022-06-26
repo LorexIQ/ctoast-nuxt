@@ -27,8 +27,8 @@
           </div>
         </div>
         <div
-          v-if="toast.delay !== defaultSetting.infinityDestroyDelay"
-          :class="`is-toast__list__item__timer ${toast.timer && 'active'}`"
+          v-if="toast.delay !== defaultSetting.infinityDestroyDelay && toast.timer"
+          :class="`is-toast__list__item__timer ${toast.timerActive && 'active'}`"
           :style="`transition: ${toast.delay / 1000}s all linear;`"
         />
         <div
@@ -62,6 +62,7 @@ export default {
           type: 'default',
           icon: '',
           delay: 3000,
+          timer: true,
           clickOn: () => {},
           clickDelete: true,
           ...this.setterDefaultSettings.toast
@@ -100,7 +101,8 @@ export default {
             this.deleteToastFromId(id)
           }
         },
-        timer: false,
+        timer: res.timer,
+        timerActive: false,
         delay: res.delay,
         title: res.title,
         description: res.description,
@@ -109,12 +111,14 @@ export default {
         id: (Date.now() + this.timeShift++).toString(),
       }
       this.toastArray.push(toastObj)
-      setTimeout((obj) => {
-        const index_obj = this.toastArray.indexOf(obj)
-        if (index_obj !== -1) {
-          this.toastArray[index_obj].timer = true
-        }
-      }, 0, toastObj)
+      if (res.timer) {
+        setTimeout((obj) => {
+          const index_obj = this.toastArray.indexOf(obj)
+          if (index_obj !== -1) {
+            this.toastArray[index_obj].timerActive = true
+          }
+        }, 0, toastObj)
+      }
 
       if (this.toastArray.length > this.defaultSetting.maxToasts) {
         this.toastArray.splice(0, 1)
@@ -136,6 +140,9 @@ export default {
           this.toastArray.splice(index, 1)
         }
       }
+      if (!this.toastArray.length) {
+        this.toastTimeoutArray = []
+      }
     })
     eventBus.$on('clear-toasts', () => {
       for (let timeout of this.toastTimeoutArray) {
@@ -151,6 +158,9 @@ export default {
       const index = this.toastArray.indexOf(toast)
       if (index !== -1) {
         this.toastArray.splice(index, 1)
+      }
+      if (!this.toastArray.length) {
+        this.toastTimeoutArray = []
       }
     },
     clearToasts () {
