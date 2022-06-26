@@ -41,7 +41,7 @@ Always use the latest version. It fixes all known bugs and does not cut out anyt
 <a name="connect"></a>
 ## Connecting to the project
 
-```nashorn js
+```javascript
 // nuxt.config.js
 export default {
   modules: [
@@ -58,7 +58,7 @@ export default {
 There are 2 ways to pass parameters to the module
 
 1. Transfer when adding a module
-```nashorn js
+```javascript
 // nuxt.config.js
 export default {
   modules: [
@@ -67,7 +67,7 @@ export default {
 }
 ```
 2. Passing parameters through the namespace
-```nashorn js
+```javascript
 export default {
   cToast: {
       args
@@ -132,7 +132,7 @@ export default {
 
 Standard functions for quickly calling toasts. At the moment there are 4 types.
 
-```nashorn js
+```javascript
 // quicke toasts with parameters
 this.$ctoast('Test Default', {toast data without title & type})
 this.$ctoast.success('Test Success', {toast data without title & type})
@@ -153,7 +153,7 @@ To call a test with a full list of parameters, the `show` function is used.
 <a name="show"></a>
 #### Method `show`
 
-```nashorn js
+```javascript
 // full toast form
 this.$ctoast.show({toast data})
 // full tosts example
@@ -181,7 +181,7 @@ Such toasts can be destroyed by _clicking the mouse_ (**if deletion is enabled**
 If you use immortal toast when loading something, then the `replace` function is perfect for your purposes.
 The function will delete the immortal toast by its name and create a new one based on the data just passed.
 
-```nashorn js
+```javascript
 this.$ctoast.replace(name toast, {toast data})
 // example
 this.$ctoast.info('Test Replace', { delay: false, name: 'test-replace'})
@@ -196,7 +196,7 @@ this.$ctoast.replace('test-replace', { title: 'Replaced!' })
 
 A function that deletes a toast by its name.
 
-```nashorn js
+```javascript
 this.$toast.delete(name toast)
 // example
 this.$ctoast.error('Test Delete', { delay: false, name: 'test-delete'})
@@ -211,7 +211,7 @@ this.$ctoast.delete('test-delete')
 
 The function deletes all existing toasts. Does not need parameters.
 
-```nashorn js
+```javascript
 this.$ctoast.clear()
 ```
 ![quickToasts](/assets/imgs/clearTest.gif)
