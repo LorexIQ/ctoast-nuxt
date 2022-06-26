@@ -19,6 +19,7 @@ const CToast = {
       'clear',
       ...cToastTypes
     ]
+
     function dataIsString (data) {
       try {
         if (typeof data !== 'string') {
@@ -30,6 +31,7 @@ const CToast = {
         return false
       }
     }
+
     Vue.prototype.$ctoast = function (title, args={}) {
       if (dataIsString(data)) {
         eventBus.$emit('create-toast', {
@@ -39,7 +41,6 @@ const CToast = {
         })
       }
     }
-
     for (const cToastType of cToastTypes) {
       Vue.prototype.$ctoast[cToastType] = function (title, args={}) {
         if (dataIsString(title)) {

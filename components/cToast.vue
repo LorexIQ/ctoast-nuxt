@@ -28,8 +28,8 @@
         </div>
         <div
           v-if="toast.delay !== defaultSetting.infinityDestroyDelay && toast.timer"
-          :class="`is-toast__list__item__timer ${toast.timerActive && 'active'}`"
-          :style="`transition: ${toast.delay / 1000}s all linear;`"
+          class="is-toast__list__item__timer"
+          :style="`transition: ${toast.delay / 1000}s all linear; ${toast.timerActive && 'width: 0;'}`"
         />
         <div
           v-show="toast.description"
@@ -57,7 +57,7 @@ export default {
         infinityDestroyDelay: 999999,
         ...this.setterDefaultSettings,
         toast: {
-          title: 'Success',
+          title: 'cToast',
           description: '',
           type: 'default',
           icon: '',
@@ -122,12 +122,14 @@ export default {
 
       if (this.toastArray.length > this.defaultSetting.maxToasts) {
         this.toastArray.splice(0, 1)
+        this.toastTimeoutArray.splice(0, 1)
       }
       if (this.toastArray.length) {
         this.toastTimeoutArray.push(setTimeout((obj, ) => {
           const index_obj = this.toastArray.indexOf(obj)
           if (index_obj !== -1) {
             this.toastArray.splice(index_obj, 1)
+            this.toastTimeoutArray.splice(index_obj, 1)
           }
           if (!this.toastArray.length) this.toastTimeoutArray = []
         }, res.delay, toastObj))
@@ -138,10 +140,8 @@ export default {
         const index = this.toastArray.indexOf(ctoastData)
         if (index !== -1) {
           this.toastArray.splice(index, 1)
+          this.toastTimeoutArray.splice(index, 1)
         }
-      }
-      if (!this.toastArray.length) {
-        this.toastTimeoutArray = []
       }
     })
     eventBus.$on('clear-toasts', () => {
@@ -158,9 +158,7 @@ export default {
       const index = this.toastArray.indexOf(toast)
       if (index !== -1) {
         this.toastArray.splice(index, 1)
-      }
-      if (!this.toastArray.length) {
-        this.toastTimeoutArray = []
+        this.toastTimeoutArray.splice(index, 1)
       }
     },
     clearToasts () {
@@ -362,9 +360,6 @@ export default {
         }
       }
       &__timer {
-        &.active {
-          width: 0;
-        }
         height: 2px;
         width: 250px;
       }
