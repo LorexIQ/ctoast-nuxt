@@ -1,69 +1,65 @@
-# ctoast-nuxt
+# cToast
 
-## Build Setup
+### Installation
 
 ```bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
+$ npm i ctoast
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+Always use the latest version. It fixes all known bugs and does not cut out anything that was in the past.
+...snip...    
+<a name="headers"/>
+### Connecting to the project
 
-## Special Directories
+```nashorn js
+// nuxt.config.js
+export default {
+  modules: [
+    'ctoast'
+  ]
+}
+```
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+### Setting standard parameters
 
-### `assets`
+There are 2 ways to pass parameters to the module
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+1. Transfer when adding a module
+```nashorn js
+// nuxt.config.js
+export default {
+  modules: [
+    ['ctoast', { args }]
+  ]
+}
+```
+2. Passing parameters through the namespace
+```nashorn js
+export default {
+  cToast: {
+      args
+  }  
+}
+```
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+### Parameters (args)
 
-### `components`
+| Name                 | Description                                                                                          | Default      | Acceptable values                                      |
+|----------------------|:-----------------------------------------------------------------------------------------------------|:-------------|--------------------------------------------------------|
+| namespace            | Sets the name space of a folder in modules, to avoid module conflicts                                | cToast       | Any names                                              |
+| debug                | Displays the current configuration of the parameters in the console when the application is launched | false        | `true`, `false`                                        |
+| position             | Sets the position of the notification block                                                          | right-bottom | `right-bottom`, `right-top`, `left-bottom`, `left-top` |
+| maxToasts            | Maximum number of toasts per page at a time                                                          | 10           | Any numerical values                                   |
+| infinityDestroyDelay | The time set for endless toasts                                                                      | 999999       | Any numerical values                                   |
+| positionPadding      | Sets the margins of the notification block from the edges of the screen                              | Object       |                                                        |
+| toast                | Sets the default toast when calling a toast with missing parameters                                  | Object       |                                                        |
+| ctoasts              | Sets personalized toasts with unique parameters                                                      | Object       |                                                        |
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
+#### positionPadding
 
 
-### `pages`
+##### Table of Contents
+[Headers](#headers)  
+[Emphasis](#emphasis)  
 
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+## Headers
