@@ -7,13 +7,17 @@ let init = false
 
 const CToast = {
   install(Vue) {
-    const defaultKeys = [
+    const cToastTypes = [
+      'success',
       'info',
-      'error',
+      'error'
+    ]
+    const defaultKeys = [
       'show',
       'replace',
       'delete',
       'clear',
+      ...cToastTypes
     ]
     function dataIsString (data) {
       try {
@@ -26,33 +30,25 @@ const CToast = {
         return false
       }
     }
-    Vue.prototype.$ctoast = function (data, args={}) {
+    Vue.prototype.$ctoast = function (title, args={}) {
       if (dataIsString(data)) {
         eventBus.$emit('create-toast', {
-          title: data,
-          ...(args.delay !== undefined && { delay: args.delay }),
-          ...(args.name && { name: args.name })
+          ...args,
+          title,
+          type: 'default'
         })
       }
     }
-    Vue.prototype.$ctoast.info = function (data, args={}) {
-      if (dataIsString(data)) {
-        eventBus.$emit('create-toast', {
-          title: data,
-          type: 'info',
-          ...(args.delay !== undefined && { delay: args.delay }),
-          ...(args.name && { name: args.name })
-        })
-      }
-    }
-    Vue.prototype.$ctoast.error = function (data, args={}) {
-      if (dataIsString(data)) {
-        eventBus.$emit('create-toast', {
-          title: data,
-          type: 'error',
-          ...(args.delay !== undefined && { delay: args.delay }),
-          ...(args.name && { name: args.name })
-        })
+
+    for (const cToastType of cToastTypes) {
+      Vue.prototype.$ctoast[cToastType] = function (title, args={}) {
+        if (dataIsString(title)) {
+          eventBus.$emit('create-toast', {
+            ...args,
+            title,
+            type: cToastType,
+          })
+        }
       }
     }
 

@@ -16,6 +16,7 @@
         :class="`is-toast__list__item ${toast.type}`"
         v-for="toast in toastArray"
         :key="toast.id"
+        v-on:click="toast.clickOn(toast.id)"
       >
         <div class="is-toast__list__item__title">
           <div class="is-toast__list__item__title__head">
@@ -25,6 +26,11 @@
             <p>{{ toast.title }}</p>
           </div>
         </div>
+        <div
+          v-if="toast.delay !== defaultSetting.infinityDestroyDelay"
+          :class="`is-toast__list__item__timer ${toast.timer && 'active'}`"
+          :style="`transition: ${toast.delay / 1000}s all linear;`"
+        />
         <div
           v-show="toast.description"
           class="is-toast__list__item__content"
@@ -53,9 +59,11 @@ export default {
         toast: {
           title: 'Success',
           description: '',
-          type: 'success',
+          type: 'default',
           icon: '',
           delay: 3000,
+          clickOn: () => {},
+          clickDelete: true,
           ...this.setterDefaultSettings.toast
         },
         positionPadding: {
@@ -86,6 +94,14 @@ export default {
       }
       const toastObj = {
         ...(res.name && { name: res.name }),
+        clickOn: (id) => {
+          res.clickOn()
+          if (res.clickDelete) {
+            this.deleteToastFromId(id)
+          }
+        },
+        timer: false,
+        delay: res.delay,
         title: res.title,
         description: res.description,
         type: res.type,
@@ -93,6 +109,13 @@ export default {
         id: (Date.now() + this.timeShift++).toString(),
       }
       this.toastArray.push(toastObj)
+      setTimeout((obj) => {
+        const index_obj = this.toastArray.indexOf(obj)
+        if (index_obj !== -1) {
+          this.toastArray[index_obj].timer = true
+        }
+      }, 0, toastObj)
+
       if (this.toastArray.length > this.defaultSetting.maxToasts) {
         this.toastArray.splice(0, 1)
       }
@@ -123,6 +146,13 @@ export default {
     })
   },
   methods: {
+    deleteToastFromId (id) {
+      const toast = this.toastArray.filter(res => res.id === id)[0]
+      const index = this.toastArray.indexOf(toast)
+      if (index !== -1) {
+        this.toastArray.splice(index, 1)
+      }
+    },
     clearToasts () {
       const objDel = this.toastArray[this.toastArray.length - 1]
       setTimeout((data) => {
@@ -137,7 +167,7 @@ export default {
     },
     adjustSetting (res) {
       for (let setting in this.defaultSetting.toast) {
-        if (!res[setting]) {
+        if (res[setting] === undefined) {
           res[setting] = this.defaultSetting.toast[setting]
         }
       }
@@ -154,7 +184,7 @@ export default {
           res.icon = 'times'
           return
         default:
-          res.icon = 'check'
+          res.icon = 'bell'
           return
       }
     }
@@ -222,6 +252,22 @@ export default {
         color: #2c3e50;
         text-transform: inherit;
       }
+      &.default {
+        .is-toast {
+          &__list {
+            &__item {
+              &__title {
+                &__icon {
+                  color: #488dd8;
+                }
+              }
+              &__timer {
+                background-color: #488dd8;
+              }
+            }
+          }
+        }
+      }
       &.success {
         .is-toast {
           &__list {
@@ -230,6 +276,9 @@ export default {
                 &__icon {
                   color: #4caf50;
                 }
+              }
+              &__timer {
+                background-color: #4caf50;
               }
             }
           }
@@ -244,6 +293,9 @@ export default {
                   color: #ffb020;
                 }
               }
+              &__timer {
+                background-color: #ffb020;
+              }
             }
           }
         }
@@ -256,6 +308,9 @@ export default {
                 &__icon {
                   color: #f44336;
                 }
+              }
+              &__timer {
+                background-color: #f44336;
               }
             }
           }
@@ -294,6 +349,13 @@ export default {
         p {
           font-size: .9rem !important;
         }
+      }
+      &__timer {
+        &.active {
+          width: 0;
+        }
+        height: 2px;
+        width: 250px;
       }
     }
   }
