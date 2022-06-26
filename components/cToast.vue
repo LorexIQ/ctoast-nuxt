@@ -243,13 +243,14 @@ export default {
     display: flex;
     flex-direction: column;
     &__item {
+      background-color: #f1f1f1;
       border-radius: 5px;
       width: 250px;
       overflow: hidden;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       transition: 1s;
       max-height: 200px;
-      margin: .25rem 0;
+      margin: 4px 0;
       p {
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
@@ -383,9 +384,11 @@ export default {
       opacity: 1;
     }
     &-leave-active {
-      transition: transform .6s ease, opacity .6s, max-height .6s .4s;
+      transition: transform .6s ease, opacity .6s, margin-top .4s .6s, margin-bottom .4s .6s, max-height .6s .4s;
     }
     &-leave-to{
+      margin-top: 0;
+      margin-bottom: 0;
       max-height: 0;
       transform: translateX(120px);
       opacity: 0;
@@ -405,9 +408,11 @@ export default {
       opacity: 1;
     }
     &-leave-active {
-      transition: transform .6s ease, opacity .6s, max-height .6s .4s;
+      transition: transform .6s ease, opacity .6s, margin-top .4s .6s, margin-bottom .4s .6s, max-height .6s .4s;
     }
     &-leave-to{
+      margin-top: 0;
+      margin-bottom: 0;
       max-height: 0;
       transform: translateX(-120px);
       opacity: 0;
