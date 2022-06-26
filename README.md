@@ -1,8 +1,34 @@
-![cToastImage](https://github.com/LorexIQ/ctoast-nuxt/tree/master/assets/imgs/cToast.png)
+<div align="center">
+  <img src="/assets/imgs/cToast.png" />
+  <h1>cToast</h1>
+</div>
+<p align="center">
+  <a href="https://www.npmjs.com/package/ctoast"><img src="https://img.shields.io/npm/v/ctoast.svg?style=flat-square"/></a>
+  <a href="https://github.com/vuejs/awesome-vue"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg"/></a>
+  <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/vue-2.x-brightgreen.svg?style=flat-square"/></a>
+ </p>
 
-# cToast
+***
 
-### Installation
+## Menu
+- [Installation](#install)
+- [Connecting to the project](#connect)
+- [Setting standard parameters](#default)
+- [Parameters (args)](#args)
+  - [positionPadding](#position_padding)
+  - [toast](#toast)
+  - [ctoasts](#ctoasts)
+- [Methods](#methods)
+    - [Methods `default`, `success`, `info`, `error`](#quick)
+    - [Method `show`](#show)
+    - [Method `replace`](#replace)
+    - [Method `delete`](#delete)
+    - [Method `clear`](#clear)
+
+***
+
+<a name="install"></a>
+## Installation
 
 ```bash
 $ npm i ctoast
@@ -10,7 +36,10 @@ $ npm i ctoast
 
 Always use the latest version. It fixes all known bugs and does not cut out anything that was in the past.
 
-### Connecting to the project
+***
+
+<a name="connect"></a>
+## Connecting to the project
 
 ```nashorn js
 // nuxt.config.js
@@ -21,7 +50,10 @@ export default {
 }
 ```
 
-### Setting standard parameters
+***
+
+<a name="default"></a>
+## Setting standard parameters
 
 There are 2 ways to pass parameters to the module
 
@@ -43,7 +75,10 @@ export default {
 }
 ```
 
-### Parameters (args)
+***
+
+<a name="args"></a>
+## Parameters (args)
 
 | Name                 | Description                                                                                          | Default      | Acceptable values                                      |
 |----------------------|:-----------------------------------------------------------------------------------------------------|:-------------|--------------------------------------------------------|
@@ -69,16 +104,17 @@ export default {
 <a name="toast"></a>
 #### toast
 
-| Name        | Description                                                             | Default        | Acceptable values                                                                              |
-|-------------|:------------------------------------------------------------------------|:---------------|------------------------------------------------------------------------------------------------|
-| title       | Sets the text of the toast title page                                   | cToast         | Any string variable                                                                            |
-| description | Sets the text of the comment on the toast                               |                | Any string variable                                                                            |
-| type        | Sets the type of toast notification                                     | default        | `default`, `seccess`, `info`, `error` or an empty field. Then the `default` style will be used |
-| icon        | Sets the toast icon                                                     | decodeTypes    | Any font Awesome icons, without **_fa-_** postscript                                           |
-| delay       | Sets the interval from the moment the toast appears until it is deleted | 3000           | Any numerical values in milliseconds                                                           |
-| timer       | Enables or disables the timer until the toast is deleted                | true           | `true` or `false`                                                                              |
-| clickOn     | Sets the function for clicking the mouse on the toast                   | Empty function | Any function                                                                                   |
-| clickDelete | Enables or disables deleting a toast by clicking on it                  | true           | `true` or `false`                                                                              |
+| Name        | Description                                                              | Default        | Acceptable values                                                                              |
+|-------------|:-------------------------------------------------------------------------|:---------------|------------------------------------------------------------------------------------------------|
+| name        | Sets a name for the toast. You can use it to remove or replace the toast |                | Any string variable                                                                            |
+| title       | Sets the text of the toast title page                                    | cToast         | Any string variable                                                                            |
+| description | Sets the text of the comment on the toast                                |                | Any string variable                                                                            |
+| type        | Sets the type of toast notification                                      | default        | `default`, `seccess`, `info`, `error` or an empty field. Then the `default` style will be used |
+| icon        | Sets the toast icon                                                      | decodeTypes    | Any font Awesome icons, without **_fa-_** postscript                                           |
+| delay       | Sets the interval from the moment the toast appears until it is deleted  | 3000           | Any numerical values in milliseconds                                                           |
+| timer       | Enables or disables the timer until the toast is deleted                 | true           | `true` or `false`                                                                              |
+| clickOn     | Sets the function for clicking the mouse on the toast                    | Empty function | Any function                                                                                   |
+| clickDelete | Enables or disables deleting a toast by clicking on it                   | true           | `true` or `false`                                                                              |
 
 <a name="ctoasts"></a>
 #### ctoasts
@@ -86,10 +122,15 @@ export default {
 |-----------------------------------------------------------|:---------------------|:-----------------------------------------------------------------|------------------------|
 | Any name that does not fall under the list of exceptions  | Unique custom toast  | `success`, `info`, `error`, `show`, `replace`, `delete`, `clear` | Object [toast](#toast) |
 
-<a name="functions"></a>
-### Functions
+***
 
-Standard functions for quickly calling toasts. At the moment there are 4 types: `default` `success`, `info` and `error`
+<a name="methods"></a>
+## Methods
+
+<a name="quick"></a>
+#### Methods `default`, `success`, `info`, `error`
+
+Standard functions for quickly calling toasts. At the moment there are 4 types.
 
 ```nashorn js
 // quicke toasts with parameters
@@ -103,8 +144,14 @@ this.$ctoast.success('Test Success')
 this.$ctoast.info('Test Info')
 this.$ctoast.error('Test Error')
 ```
+![quickToasts](/assets/imgs/quickToastsTest.gif)
 
-To call a test with a full list of parameters, the `show` function is used
+To call a test with a full list of parameters, the `show` function is used.
+
+***
+
+<a name="show"></a>
+#### Method `show`
 
 ```nashorn js
 // full toast form
@@ -123,3 +170,52 @@ this.$ctoast.show({
   clickDelete: true
 })
 ```
+![quickToasts](/assets/imgs/toastTest.gif)
+
+***
+
+<a name="replace"></a>
+#### Method `replace`
+It is also possible to make toasts immortal. To do this, just enter the `false` value in the `delay` parameters.
+Such toasts can be destroyed by _clicking the mouse_ (**if deletion is enabled**), _reloading the page_, _clearing all toasts_, _deleting by name_, but not by time (**unless you have infinityDestroyDelay set to a very small value**).
+If you use immortal toast when loading something, then the `replace` function is perfect for your purposes.
+The function will delete the immortal toast by its name and create a new one based on the data just passed.
+
+```nashorn js
+this.$ctoast.replace(name toast, {toast data})
+// example
+this.$ctoast.info('Test Replace', { delay: false, name: 'test-replace'})
+this.$ctoast.replace('test-replace', { title: 'Replaced!' })
+```
+![quickToasts](/assets/imgs/replaceTest.gif)
+
+***
+
+<a name="delete"></a>
+#### Method `delete`
+
+A function that deletes a toast by its name.
+
+```nashorn js
+this.$toast.delete(name toast)
+// example
+this.$ctoast.error('Test Delete', { delay: false, name: 'test-delete'})
+this.$ctoast.delete('test-delete')
+```
+![quickToasts](/assets/imgs/deleteTest.gif)
+
+***
+
+<a name="clear"></a>
+#### Method `clear`
+
+The function deletes all existing toasts. Does not need parameters.
+
+```nashorn js
+this.$ctoast.clear()
+```
+![quickToasts](/assets/imgs/clearTest.gif)
+
+***
+
+Enjoy using my toasts 🤗
