@@ -33,7 +33,7 @@ const CToast = {
     }
 
     Vue.prototype.$ctoast = function (title, args={}) {
-      if (dataIsString(data)) {
+      if (dataIsString(title)) {
         eventBus.$emit('create-toast', {
           ...args,
           title,
