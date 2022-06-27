@@ -1,26 +1,26 @@
 <template lang="pug">
-  .is-toast(
+  .ctoast(
     :class="`${defaultSetting.position}`"
     :style="`${defaultSetting.positionPadding.top ? 'top:' + defaultSetting.positionPadding.top : ''};${defaultSetting.positionPadding.right ? 'right:' + defaultSetting.positionPadding.right : ''};${defaultSetting.positionPadding.bottom ? 'bottom:' + defaultSetting.positionPadding.bottom : ''};${defaultSetting.positionPadding.left ? 'left:' + defaultSetting.positionPadding.left : ''};`"
   )
-    transition-group.is-toast__list(:name="`is-toasts-animation ${defaultSetting.position}`")
-      .is-toast__list__item(
-        :class="`${toast.type}`"
+    transition-group.ctoast__list(:name="`ctoasts-animation-${defaultSetting.position}`")
+      .ctoast__list__item(
+        :class="toast.type"
         v-for="toast in toastArray"
         :key="toast.id"
         @click="toast.clickOn(toast.id)"
       )
-        .is-toast__list__item__title
-          .is-toast__list__item__title__head
-            i.toast__list__item__title__icon(
+        .ctoast__list__item__title
+          .ctoast__list__item__title__head
+            i.ctoast__list__item__title__icon(
               :class="`fa fas fa-${toast.icon}`"
             )
-              p {{ toast.title }}
-        .is-toast__list__item__timer(
+            p {{ toast.title }}
+        .ctoast__list__item__timer(
           v-if="toast.delay !== defaultSetting.infinityDestroyDelay && toast.timer"
           :style="`transition: ${toast.delay / 1000}s all linear; ${toast.timerActive && 'width: 0;'}`"
         )
-        .is-toast__list__item__content(v-show="toast.description")
+        .ctoast__list__item__content(v-show="toast.description")
           p {{ toast.description }}
 </template>
 
@@ -183,217 +183,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 @import "../assets/css/main.css";
-
-.is-toast {
-  position: fixed;
-  z-index: 3000;
-  &.right {
-    &-bottom {
-      right: 1rem;
-      bottom: 1rem;
-    }
-    &-top {
-      right: 1rem;
-      top: 1rem;
-      .is-toast {
-        &__list {
-          flex-direction: column-reverse;
-        }
-      }
-    }
-  }
-  &.left {
-    &-bottom {
-      left: 1rem;
-      bottom: 1rem;
-    }
-    &-top {
-      left: 1rem;
-      top: 1rem;
-      .is-toast {
-        &__list {
-          flex-direction: column-reverse;
-        }
-      }
-    }
-  }
-  &__list {
-    display: flex;
-    flex-direction: column;
-    &__item {
-      background-color: #f1f1f1;
-      border-radius: 5px;
-      width: 250px;
-      overflow: hidden;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-      transition: 1s;
-      max-height: 200px;
-      margin: 4px 0;
-      p {
-        font-family: 'Roboto', sans-serif;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 16px;
-        text-decoration: none;
-        margin: 0;
-        user-select: none;
-        transition: .3s;
-        color: #2c3e50;
-        text-transform: inherit;
-      }
-      &.default {
-        .is-toast {
-          &__list {
-            &__item {
-              &__title {
-                &__icon {
-                  color: #488dd8;
-                }
-              }
-              &__timer {
-                background-color: #488dd8;
-              }
-            }
-          }
-        }
-      }
-      &.success {
-        .is-toast {
-          &__list {
-            &__item {
-              &__title {
-                &__icon {
-                  color: #4caf50;
-                }
-              }
-              &__timer {
-                background-color: #4caf50;
-              }
-            }
-          }
-        }
-      }
-      &.info {
-        .is-toast {
-          &__list {
-            &__item {
-              &__title {
-                &__icon {
-                  color: #ffb020;
-                }
-              }
-              &__timer {
-                background-color: #ffb020;
-              }
-            }
-          }
-        }
-      }
-      &.error {
-        .is-toast {
-          &__list {
-            &__item {
-              &__title {
-                &__icon {
-                  color: #f44336;
-                }
-              }
-              &__timer {
-                background-color: #f44336;
-              }
-            }
-          }
-        }
-      }
-      &__title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: .5rem;
-        background-color: #f1f1f1;
-        &__head {
-          display: flex;
-          align-items: center;
-          svg {
-            margin-right: .5rem;
-            font-size: 1.25rem;
-          }
-        }
-        &__toggle {
-          font-size: 12px;
-        }
-        &:after {
-          content: '';
-          display: block;
-          margin: 0 auto 2rem;
-          position: absolute;
-          bottom: 0;
-          border-bottom: 1px solid black;
-        }
-      }
-      &__content {
-        padding: .75rem;
-        font-size: 1.5rem;
-        background-color: rgba(255,255,255,.95);
-        p {
-          font-size: .9rem !important;
-        }
-      }
-      &__timer {
-        height: 2px;
-        width: 250px;
-      }
-    }
-  }
-}
-.is-toasts-animation-right {
-  &-top, &-bottom {
-    &-enter {
-      transform: translateX(120px);
-      opacity: 0;
-    }
-    &-enter-active, &-move  {
-      transition: all .6s ease;
-    }
-    &-enter-to, &-leave {
-      opacity: 1;
-    }
-    &-leave-active {
-      transition: transform .6s ease, opacity .6s, margin-top .4s .6s, margin-bottom .4s .6s, max-height .6s .4s;
-    }
-    &-leave-to{
-      margin-top: 0;
-      margin-bottom: 0;
-      max-height: 0;
-      transform: translateX(120px);
-      opacity: 0;
-    }
-  }
-}
-.is-toasts-animation-left {
-  &-top, &-bottom {
-    &-enter {
-      transform: translateX(-120px);
-      opacity: 0;
-    }
-    &-enter-active, &-move  {
-      transition: all .6s ease;
-    }
-    &-enter-to, &-leave {
-      opacity: 1;
-    }
-    &-leave-active {
-      transition: transform .6s ease, opacity .6s, margin-top .4s .6s, margin-bottom .4s .6s, max-height .6s .4s;
-    }
-    &-leave-to{
-      margin-top: 0;
-      margin-bottom: 0;
-      max-height: 0;
-      transform: translateX(-120px);
-      opacity: 0;
-    }
-  }
-}
 </style>
