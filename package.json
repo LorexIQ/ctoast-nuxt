@@ -1,13 +1,7 @@
 {
   "name": "ctoast",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Custom toast notification for your project",
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
-  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
@@ -23,9 +17,6 @@
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "webpack": "^4.46.0"
-  },
-  "devDependencies": {
-    "@nuxt/types": "~2.15.0"
   },
   "main": "module.js",
   "repository": {

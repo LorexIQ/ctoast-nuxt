@@ -1,51 +1,33 @@
-<template>
-  <div
-    :class="`is-toast ${defaultSetting.position}`"
-    :style="`
-    ${defaultSetting.positionPadding.top ? 'top:' + defaultSetting.positionPadding.top : ''};
-    ${defaultSetting.positionPadding.right ? 'right:' + defaultSetting.positionPadding.right : ''};
-    ${defaultSetting.positionPadding.bottom ? 'bottom:' + defaultSetting.positionPadding.bottom : ''};
-    ${defaultSetting.positionPadding.left ? 'left:' + defaultSetting.positionPadding.left : ''};
-    `"
-  >
-    <transition-group
-      :name="`is-toasts-animation-${defaultSetting.position}`"
-      class="is-toast__list"
-    >
-      <div
-        :class="`is-toast__list__item ${toast.type}`"
+<template lang="pug">
+  .is-toast(
+    :class="`${defaultSetting.position}`"
+    :style="`${defaultSetting.positionPadding.top ? 'top:' + defaultSetting.positionPadding.top : ''};${defaultSetting.positionPadding.right ? 'right:' + defaultSetting.positionPadding.right : ''};${defaultSetting.positionPadding.bottom ? 'bottom:' + defaultSetting.positionPadding.bottom : ''};${defaultSetting.positionPadding.left ? 'left:' + defaultSetting.positionPadding.left : ''};`"
+  )
+    transition-group.is-toast__list(:name="`is-toasts-animation ${defaultSetting.position}`")
+      .is-toast__list__item(
+        :class="`${toast.type}`"
         v-for="toast in toastArray"
         :key="toast.id"
-        v-on:click="toast.clickOn(toast.id)"
-      >
-        <div class="is-toast__list__item__title">
-          <div class="is-toast__list__item__title__head">
-            <i
-              :class="`is-toast__list__item__title__icon fa fas fa-${toast.icon}`"
-            />
-            <p>{{ toast.title }}</p>
-          </div>
-        </div>
-        <div
+        @click="toast.clickOn(toast.id)"
+      )
+        .is-toast__list__item__title
+          .is-toast__list__item__title__head
+            i.toast__list__item__title__icon(
+              :class="`fa fas fa-${toast.icon}`"
+            )
+              p {{ toast.title }}
+        .is-toast__list__item__timer(
           v-if="toast.delay !== defaultSetting.infinityDestroyDelay && toast.timer"
-          class="is-toast__list__item__timer"
           :style="`transition: ${toast.delay / 1000}s all linear; ${toast.timerActive && 'width: 0;'}`"
-        />
-        <div
-          v-show="toast.description"
-          class="is-toast__list__item__content"
-        >
-          <p>{{ toast.description }}</p>
-        </div>
-      </div>
-    </transition-group>
-  </div>
+        )
+        .is-toast__list__item__content(v-show="toast.description")
+          p {{ toast.description }}
 </template>
 
 <script>
-import {eventBus} from "../plugins/eventBus";
+import { eventBus } from "../plugins/eventBus";
 export default {
-  name: "Test",
+  name: "CToastComponent",
   data () {
     return {
       toastArray: [],
