@@ -1,0 +1,19 @@
+{
+  "name": "ctoast-docs",
+  "version": "0.0.1",
+  "description": "Documentation for CToast notifications for Vue 2.x and Nuxt.js 2.x",
+  "main": "index.js",
+  "authors": {
+    "name": "IceSlam",
+    "email": "mainguy@mail.ru"
+  },
+  "repository": "https://github.com/LorexIQ/ctoast-nuxt.git/ctoast-docs",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.9.7"
+  }
+}

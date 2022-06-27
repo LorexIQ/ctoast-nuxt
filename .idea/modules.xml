@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ctoast-nuxt.iml" filepath="$PROJECT_DIR$/.idea/ctoast-nuxt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CToast.iml" filepath="$PROJECT_DIR$/.idea/CToast.iml" />
     </modules>
   </component>
 </project>
