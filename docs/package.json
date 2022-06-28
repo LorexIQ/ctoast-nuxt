@@ -15,5 +15,8 @@
   "license": "MIT",
   "devDependencies": {
     "vuepress": "^1.9.7"
+  },
+  "dependencies": {
+    "ctoast": "^1.0.3"
   }
 }

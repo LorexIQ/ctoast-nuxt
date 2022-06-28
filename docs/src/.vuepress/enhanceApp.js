@@ -11,4 +11,10 @@ export default ({
   siteData // site metadata
 }) => {
   // ...apply enhancements for the site.
+  import('ctoast').then(module => {
+    Vue.use(module.default, {
+    });
+  }).catch(error => {
+
+  });
 }

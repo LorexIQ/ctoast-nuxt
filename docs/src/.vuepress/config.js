@@ -41,10 +41,6 @@ module.exports = {
       {
         text: 'NPM',
         link: 'https://www.npmjs.com/package/ctoast'
-      },
-      {
-        text: 'GitHub',
-        link: 'https://github.com/LorexIQ/ctoast-nuxt'
       }
     ],
     sidebar: {
