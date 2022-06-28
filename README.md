@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/assets/imgs/cToast.png" />
+  <img src="https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/cToast.png" />
   <h1>cToast</h1>
 </div>
 <p align="center">
