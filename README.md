@@ -144,7 +144,7 @@ this.$ctoast.success('Test Success')
 this.$ctoast.info('Test Info')
 this.$ctoast.error('Test Error')
 ```
-![quickToasts](/assets/imgs/quickToastsTest.gif)
+![quickToasts](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/quickToastsTest.gif)
 
 To call a test with a full list of parameters, the `show` function is used.
 
@@ -170,7 +170,7 @@ this.$ctoast.show({
   clickDelete: true
 })
 ```
-![quickToasts](/assets/imgs/toastTest.gif)
+![quickToasts](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/toastTest.gif)
 
 ***
 
@@ -187,7 +187,7 @@ this.$ctoast.replace(name toast, {toast data})
 this.$ctoast.info('Test Replace', { delay: false, name: 'test-replace'})
 this.$ctoast.replace('test-replace', { title: 'Replaced!' })
 ```
-![quickToasts](/assets/imgs/replaceTest.gif)
+![quickToasts](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/replaceTest.gif)
 
 ***
 
@@ -202,7 +202,7 @@ this.$toast.delete(name toast)
 this.$ctoast.error('Test Delete', { delay: false, name: 'test-delete'})
 this.$ctoast.delete('test-delete')
 ```
-![quickToasts](/assets/imgs/deleteTest.gif)
+![quickToasts](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/clearTest.gif)
 
 ***
 
@@ -214,7 +214,7 @@ The function deletes all existing toasts. Does not need parameters.
 ```javascript
 this.$ctoast.clear()
 ```
-![quickToasts](/assets/imgs/clearTest.gif)
+![quickToasts](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/clearTest.gif)
 
 ***
 
