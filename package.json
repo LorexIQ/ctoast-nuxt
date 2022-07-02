@@ -48,5 +48,8 @@
   "bugs": {
     "url": "https://github.com/LorexIQ/ctoast-nuxt/issues"
   },
-  "homepage": "https://lorexiq.github.io/ctoast-nuxt"
+  "homepage": "https://lorexiq.github.io/ctoast-nuxt",
+  "publishConfig": {
+    "@noosoft:registry": "https://gitlab.noosoft.ru/api/v4/projects/4/packages/npm/"
+  }
 }
