@@ -7,4 +7,5 @@ deploy:
   stage: deploy
   script:
     - echo "//${CI_SERVER_HOST}/api/v4/projects/4/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
-    - npm publish --registry=https://${CI_SERVER_HOST}/api/v4/projects/4/packages/npm/:_authToken=${CI_JOB_TOKEN}
+    - npm config set registry https://gitlab.noosoft.ru/api/v4/projects/4/packages/npm/
+    - npm publish
