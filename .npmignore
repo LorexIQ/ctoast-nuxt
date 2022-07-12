@@ -1,2 +1,3 @@
 node_modules/
 .idea
+.gitlab-ci.yml
