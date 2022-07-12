@@ -104,6 +104,7 @@
 .ctoast__list__item__content {
   padding: 0.75rem;
   font-size: 1.5rem;
+  white-space: pre-line;
   background-color: rgba(255, 255, 255, 0.95);
 }
 .ctoast__list__item__content p {
