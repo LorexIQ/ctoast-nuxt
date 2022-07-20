@@ -21,6 +21,8 @@
 - [Methods](#methods)
     - [Methods `default`, `success`, `info`, `error`](#quick)
     - [Method `show`](#show)
+    - [Method `showLoader`](#show_loader)
+    - [Method `loaderStatus`](#loader_status)
     - [Method `replace`](#replace)
     - [Method `delete`](#delete)
     - [Method `clear`](#clear)
@@ -156,7 +158,7 @@ To call a test with a full list of parameters, the `show` function is used.
 ```javascript
 // full toast form
 this.$ctoast.show({toast data})
-// full tosts example
+
 this.$ctoast.show({
   title: 'Test Show',
   description: 'End Test',
@@ -172,6 +174,88 @@ this.$ctoast.show({
 ```
 ![quickToasts](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/toastTest.gif)
 
+***
+
+<a name=""show_loader"></a>
+#### Method `showLoader` `NEW`
+This type of toast is designed to remove spam from the website interface. It is called once with all the necessary 
+parameters and then, as something is loaded on the page, using an additional method, the state of each of the 
+parameters changes.
+
+| Name            | Description                                                               | Default        | Acceptable values     |
+|-----------------|:--------------------------------------------------------------------------|:---------------|-----------------------|
+| errorData       | Sets a new test in case of a loading error (see ctoast.show parameters)   | { Object }     | [ctoast Data](#toast) |
+| successData     | Sets a new test in case of a loading success (see ctoast.show parameters) | { Object }     | [ctoast Data](#toast) |
+| errorFunction   | Sets the function that will execute when an error occurs                  | empty function | Any function          |
+| successFunction | Sets the function that will execute on success                            | empty function | Any function          |
+
+Loader has default parameters that are non-standard for other methods, some of which cannot be changed.
+
+| Name        | Default               | Acceptable values                    |
+|-------------|:----------------------|--------------------------------------|
+| delay       | false (infinite mode) | Any numerical values in milliseconds |
+| timer       | false                 | Immutable                            |
+| clickOn     | empty function        | Immutable                            |
+| clickDelete | false                 | Immutable                            |
+| type        | info                  | Immutable                            |
+
+Props standard:
+```javascript
+{
+    nameSubLoader: title,
+    ...  
+}
+```
+
+An example of calling this toast
+
+```javascript
+// loader toast form
+this.$ctoast.showLoader(name toast, data loader*, props)
+// loader toast example
+this.$ctoast.showLoader(
+  'test-loader',
+  {
+    title: 'Test Loader',
+    description: 'A new loader toast has been released. Check out the new documentation',
+    errorData: {
+      title: 'Good reviews have not been received',
+      type: 'error'
+    },
+    successData: {
+      title: 'Thank you for support',
+      type: 'success'
+    },
+    errorFunction: () => console.log('error'),
+    successFunction: () => console.log('success')
+  },
+  { 
+    'test-1': 'search for an idea', 
+    'test-2': 'implementation of the idea', 
+    'test-3': 'good reviews' 
+  }
+)
+```
+![loaderSuccessTest](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/loaderSuccessTest.gif)
+![loaderErrorTest](https://raw.githubusercontent.com/LorexIQ/ctoast-nuxt/HEAD/assets/imgs/loaderErrorTest.gif)
+
+To change the loading state, the `loaderState` method is used
+
+***
+
+<a name=""loader_status"></a>
+#### Method `loaderStatus` `NEW`
+
+This method works in conjunction with showLoader and nothing else. The name of the toast loader, the name of the props element and the loading status `true` (success) or `false' (error) are passed to the call parameters
+
+```javascript
+// loader change status form
+this.$ctoast.loaderStatus(name, name loader, status)
+// loader change status example success
+this.$ctoast.loaderStatus('loader-test', 'test-1', true)
+// loader change status example error
+this.$ctoast.loaderStatus('loader-test', 'test-2', false)
+```
 ***
 
 <a name="replace"></a>

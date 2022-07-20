@@ -15,7 +15,7 @@ const CToast = {
     const defaultKeys = [
       'show',
       'showLoader',
-      'loaderState',
+      'loaderStatus',
       'replace',
       'delete',
       'clear',
@@ -74,8 +74,8 @@ const CToast = {
       }
       eventBus.$emit('create-toast', data)
     }
-    Vue.prototype.$ctoast.loaderState = function (nameLoader, nameState, status) {
-      eventBus.$emit('change-loader-state', { nameLoader, nameState, status })
+    Vue.prototype.$ctoast.loaderStatus = function (nameLoader, nameStatus, status) {
+      eventBus.$emit('change-loader-status', { nameLoader, nameStatus, status })
     }
     Vue.prototype.$ctoast.replace = function (name, data={}) {
       eventBus.$emit('delete-toast', name)

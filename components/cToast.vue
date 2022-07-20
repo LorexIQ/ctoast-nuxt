@@ -154,13 +154,13 @@ export default {
         }, res.delay, toastObj))
       }
     })
-    eventBus.$on('change-loader-state', args => {
-      const { nameLoader, nameState, status } = args
+    eventBus.$on('change-loader-status', args => {
+      const { nameLoader, nameStatus, status } = args
       let loaderToast = this.toastArray.filter(res => res.name === nameLoader)
       if (loaderToast.length) {
         let toastData = loaderToast[0]
-        toastData.loaderData[nameState].status = status ? 'success' : 'error'
-        toastData.loaderData[nameState].key += '_edit'
+        toastData.loaderData[nameStatus].status = status ? 'success' : 'error'
+        toastData.loaderData[nameStatus].key += '_edit'
         if (!status) {
           const errorToast = toastData.errorData
           setTimeout(() => {
