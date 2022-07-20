@@ -14,6 +14,8 @@ const CToast = {
     ]
     const defaultKeys = [
       'show',
+      'showLoader',
+      'loaderState',
       'replace',
       'delete',
       'clear',
@@ -55,6 +57,25 @@ const CToast = {
 
     Vue.prototype.$ctoast.show = function (data) {
       eventBus.$emit('create-toast', data)
+    }
+    Vue.prototype.$ctoast.showLoader = function (name, data, props) {
+      data = {
+        ...data,
+        ...(data.delay === undefined && { delay: false }),
+        name: name,
+        timer: false,
+        clickOn: () => {},
+        clickDelete: false,
+        type: 'info',
+        loaderData: {}
+      }
+      for (const propId of Object.keys(props)) {
+        data.loaderData[propId] = { title: props[propId], key: propId, status: 'load' }
+      }
+      eventBus.$emit('create-toast', data)
+    }
+    Vue.prototype.$ctoast.loaderState = function (nameLoader, nameState, status) {
+      eventBus.$emit('change-loader-state', { nameLoader, nameState, status })
     }
     Vue.prototype.$ctoast.replace = function (name, data={}) {
       eventBus.$emit('delete-toast', name)

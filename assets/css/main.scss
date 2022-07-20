@@ -96,6 +96,7 @@
               &__title {
                 &__icon {
                   color: #ffb020;
+                  animation: load-animation 1.5s infinite ease-in-out;
                 }
               }
               &__timer {
@@ -148,6 +149,9 @@
         }
       }
       &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
         padding: .75rem;
         font-size: 1.5rem;
         white-space: pre-line;
@@ -155,12 +159,51 @@
         p {
           font-size: .9rem !important;
         }
+        &__loader {
+          display: flex;
+          gap: 3px;
+          align-items: center;
+          &__icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            width: 21px;
+            height: 21px;
+            &--load {
+              svg {
+                color: #ffb020;
+              }
+            }
+            &--success {
+              svg {
+                color: #4caf50;
+              }
+            }
+            &--error {
+              svg {
+                color: #f44336;
+              }
+            }
+          }
+        }
       }
       &__timer {
         height: 2px;
         width: 250px;
       }
     }
+  }
+}
+@keyframes load-animation {
+  0% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 .ctoasts-animation-right {

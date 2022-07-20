@@ -20,8 +20,24 @@
           v-if="toast.delay !== defaultSetting.infinityDestroyDelay && toast.timer"
           :style="`transition: ${toast.delay / 1000}s all linear; ${toast.timerActive && 'width: 0;'}`"
         )
-        .ctoast__list__item__content(v-show="toast.description")
-          p {{ toast.description }}
+        .ctoast__list__item__content(v-if="toast.description || toast.loaderData !== undefined")
+          p(
+            v-if="toast.description"
+            :style="toast.loaderData !== undefined ? 'padding-bottom: 2px;' : ''"
+          ) {{ toast.description }}
+          span.ctoast__list__item__content__loader(
+            v-if="toast.loaderData"
+            v-for="loader in toast.loaderData"
+            :key="`loader-key-${loader.key}`"
+          )
+            .ctoast__list__item__content__loader__icon(
+              :class="`ctoast__list__item__content__loader__icon--${loader.status}`"
+            )
+              i(
+                class="fa"
+                :class="`fa-${loader.status === 'load' ? 'spinner fa-spin' : loader.status === 'success' ? 'check' : 'times'}`"
+              )
+            p {{ loader.title }}
 </template>
 
 <script>
@@ -47,6 +63,19 @@ export default {
           timer: true,
           clickOn: () => {},
           clickDelete: true,
+          errorData: {
+            title: 'Error',
+            type: 'error',
+            icon: 'times'
+          },
+          successData: {
+            title: 'Success',
+            type: 'success',
+            icon: 'check'
+          },
+          errorFunction: () => {},
+          successFunction: () => {},
+          loaderDelay: 1000,
           ...this.setterDefaultSettings.toast
         },
         positionPadding: {
@@ -83,6 +112,14 @@ export default {
             this.deleteToastFromId(id)
           }
         },
+        ...(res.loaderData !== undefined && {
+          loaderData: res.loaderData,
+          errorData: res.errorData,
+          successData: res.successData,
+          loaderDelay: res.loaderDelay,
+          errorFunction: res.errorFunction,
+          successFunction: res.successFunction
+        }),
         timer: res.timer,
         timerActive: false,
         delay: res.delay,
@@ -115,6 +152,30 @@ export default {
           }
           if (!this.toastArray.length) this.toastTimeoutArray = []
         }, res.delay, toastObj))
+      }
+    })
+    eventBus.$on('change-loader-state', args => {
+      const { nameLoader, nameState, status } = args
+      let loaderToast = this.toastArray.filter(res => res.name === nameLoader)
+      if (loaderToast.length) {
+        let toastData = loaderToast[0]
+        toastData.loaderData[nameState].status = status ? 'success' : 'error'
+        toastData.loaderData[nameState].key += '_edit'
+        if (!status) {
+          const errorToast = toastData.errorData
+          setTimeout(() => {
+            toastData.errorFunction()
+            eventBus.$emit('create-toast', errorToast)
+            this.deleteToastFromId(toastData.id)
+          }, toastData.loaderDelay)
+        } else if (Object.values(toastData.loaderData).length === Object.values(toastData.loaderData).filter(res => res.status === 'success').length) {
+          const successToast = toastData.successData
+          setTimeout(() => {
+            toastData.successFunction()
+            eventBus.$emit('create-toast', successToast)
+            this.deleteToastFromId(toastData.id)
+          }, toastData.loaderDelay)
+        }
       }
     })
     eventBus.$on('delete-toast', (name) => {
@@ -183,6 +244,6 @@ export default {
 }
 </script>
 
-<style scoped>
-@import "../assets/css/main.css";
+<style lang="scss" scoped>
+@import "../assets/css/main.scss";
 </style>
