@@ -176,7 +176,7 @@ this.$ctoast.show({
 
 ***
 
-<a name=""show_loader"></a>
+<a name="show_loader"></a>
 #### Method `showLoader` `NEW`
 This type of toast is designed to remove spam from the website interface. It is called once with all the necessary 
 parameters and then, as something is loaded on the page, using an additional method, the state of each of the 
@@ -243,7 +243,7 @@ To change the loading state, the `loaderState` method is used
 
 ***
 
-<a name=""loader_status"></a>
+<a name="loader_status"></a>
 #### Method `loaderStatus` `NEW`
 
 This method works in conjunction with showLoader and nothing else. The name of the toast loader, the name of the props element and the loading status `true` (success) or `false' (error) are passed to the call parameters
