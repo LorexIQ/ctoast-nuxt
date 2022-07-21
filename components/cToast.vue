@@ -155,7 +155,7 @@ export default {
       }
     })
     eventBus.$on('change-loader-status', args => {
-      const { nameLoader, nameStatus, status } = args
+      const { nameLoader, nameStatus, status, description } = args
       let loaderToast = this.toastArray.filter(res => res.name === nameLoader)
       if (loaderToast.length) {
         let toastData = loaderToast[0]
@@ -165,7 +165,7 @@ export default {
           const errorToast = toastData.errorData
           setTimeout(() => {
             toastData.errorFunction()
-            eventBus.$emit('create-toast', errorToast)
+            eventBus.$emit('create-toast', { ...errorToast, description })
             this.deleteToastFromId(toastData.id)
           }, toastData.loaderDelay)
         } else if (Object.values(toastData.loaderData).length === Object.values(toastData.loaderData).filter(res => res.status === 'success').length) {

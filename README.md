@@ -251,10 +251,11 @@ This method works in conjunction with showLoader and nothing else. The name of t
 ```javascript
 // loader change status form
 this.$ctoast.loaderStatus(name, name loader, status)
+this.$ctoast.loaderStatus(name, name loader, status, description) // for false value
 // loader change status example success
 this.$ctoast.loaderStatus('loader-test', 'test-1', true)
 // loader change status example error
-this.$ctoast.loaderStatus('loader-test', 'test-2', false)
+this.$ctoast.loaderStatus('loader-test', 'test-2', false, 'test-2 error')
 ```
 ***
 

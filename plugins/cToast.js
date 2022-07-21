@@ -74,8 +74,8 @@ const CToast = {
       }
       eventBus.$emit('create-toast', data)
     }
-    Vue.prototype.$ctoast.loaderStatus = function (nameLoader, nameStatus, status) {
-      eventBus.$emit('change-loader-status', { nameLoader, nameStatus, status })
+    Vue.prototype.$ctoast.loaderStatus = function (nameLoader, nameStatus, status, description='') {
+      eventBus.$emit('change-loader-status', { nameLoader, nameStatus, status, description })
     }
     Vue.prototype.$ctoast.replace = function (name, data={}) {
       eventBus.$emit('delete-toast', name)
